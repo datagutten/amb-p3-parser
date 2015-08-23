@@ -1,6 +1,11 @@
 <?Php
 //Capture data from a AMB decoder using a socket
-require 'config_socket.php';
+if(isset($argv[1]) && file_exists($conf="config_socket_{$argv[1]}.php"))
+	require $conf;
+else
+	require 'config_socket.php';
+if(!file_exists($file_path))
+	mkdir($file_path);
 
 $socket=socket_create(AF_INET,SOCK_STREAM,0);
 $result = socket_connect($socket,$address,$port) or die("Could not connect to server\n");
