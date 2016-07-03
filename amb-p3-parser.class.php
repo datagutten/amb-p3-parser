@@ -43,8 +43,8 @@ class amb_p3_parser
 	{
 		//var_dump(dechex(ord(substr($data,0,1))));
 		//var_dump(dechex(ord(substr($data,-1,1))));
-		$start=strpos($data,0x8E);
-		$end=strrpos($data,0x8F);
+		$start=strpos($data,chr(0x8E));
+		$end=strrpos($data,chr(0x8F));
 		return substr($data,$start,$end-$start+1); //Trim the string to get only complete messages
 	}
 	function unescape($record) //Subtract 0x20 from any byte prefixed with 0x8D
@@ -102,8 +102,9 @@ class amb_p3_parser
 			$field_id=ord($record[$pos]); //The first byte of a message is the field ID
 			if(!isset($fields[$field_id]))
 			{
-				$info['error']="Unknown message id: $field";
-				return $info;
+				//$info['error']="Unknown message id: $field";
+				trigger_error("Unknown field ID at position ".dechex($pos).": ".dechex($field_id));
+				$fields[$field_id]='unkown_'.dechex($pos);
 			}
 			$field_name=$fields[$field_id]; //Get the field name
 			$length=ord(substr($record,$pos+1,1)); //After the field ID we find the message length
@@ -132,14 +133,15 @@ class amb_p3_parser
 			trigger_error("Unkown record type: ".dechex($header['type']));
 			return false;
 		}
-		echo "Type is {$this->record_types[$header['type']]}\n";
+		//echo "Type is {$this->record_types[$header['type']]}\n";
 
 		if($typefilter!==false && $header['type']!=$typefilter) //Type is not wanted
 			return true;
 
 		if(isset($this->messages[$header['type']])) //Check if the message can be parsed
 		{
-			$message=$this->read_fields($record,$this->messages[$header['type']]) ;//Read the fields of the record
+			$fields=$this->messages[$header['type']] + $this->messages['general'];
+			$message=$this->read_fields($record,$fields) ;//Read the fields of the record
 			$record_parsed=array_merge($header,$message); //Merge the header and the the message body
 		}
 		else
