@@ -27,8 +27,16 @@ class amb_p3_parser
 										0x04=>'RTC_TIME',
 										0x05=>'STRENGTH',
 										0x06=>'HITS',
-										0x08=>'FLAGS',
-										0x81=>'DECODER_ID')
+										0x08=>'FLAGS'),
+							0x02=>array(0x01=>'NOISE',
+										0x06=>'GPS',
+										0x07=>'TEMPERATURE',
+										0x0A=>'SATINUSE',
+										0x0B=>'LOOP_TRIGGERS',
+										0x0C=>'INPUT_VOLTAGE'),
+					'general'=>array(	0x81=>'DECODER_ID',
+										0x83=>'CONTROLLER_ID',
+										0x85=>'REQUEST_ID')
 									);
 
 	function trim_data($data,$debug=false) //Trim data to only contain complete records
