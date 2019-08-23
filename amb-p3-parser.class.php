@@ -87,7 +87,7 @@ class amb_p3_parser
 		$info['version']=ord(substr($record,0x1,1));
 		$info['length']=$this->format_value(substr($record,0x2,2));
 		$info['crc']=$this->format_value(substr($record,0x4,2),true);
-		$info['flags_header']=$this->format_value(substr($record,0x6,2),true);
+		$info['flags_header']=$this->format_value(substr($record,0x6,2),true); //Indicates the field length
 		$info['type']=$this->format_value(substr($record,0x8,2)); //Get record type
 		$info['record_hex']=$this->format_value($record,true,false); //Get the complete record as a readable hex string
 		return $info;
