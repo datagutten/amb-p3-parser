@@ -17,6 +17,8 @@ while (true) {
 		echo "Could not read server response\n";
 		continue;
 	}
+	if(empty($record))
+		continue;
 
 	$type=dechex(ord(substr($record,0x08,1)));
 	if(ord(substr($record,0,1))!=0x8E || ord(substr($record,-1,1))!=0x8F || $type!=0x02) //Do not save packets with only status message
