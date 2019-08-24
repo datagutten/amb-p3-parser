@@ -1,0 +1,12 @@
+{
+    "name": "datagutten/amb-p3-parser",
+    "description": "A PHP class to parse the AMB/MyLaps P3 protocol",
+    "type": "library",
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "datagutten",
+            "email": "datagutten@datagutten.net"
+        }
+    ]
+}

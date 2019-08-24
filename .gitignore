@@ -1,1 +1,4 @@
 config*.php
+bad_records
+
+/vendor/
