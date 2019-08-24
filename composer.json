@@ -8,5 +8,8 @@
             "name": "datagutten",
             "email": "datagutten@datagutten.net"
         }
-    ]
+    ],
+    "autoload": {
+        "classmap": ["amb-p3-parser.class.php"]
+    }
 }
