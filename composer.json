@@ -11,5 +11,8 @@
     ],
     "autoload": {
         "classmap": ["amb-p3-parser.class.php"]
+    },
+    "require": {
+        "ext-sockets": "*"
     }
 }
