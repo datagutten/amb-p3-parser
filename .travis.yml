@@ -31,7 +31,7 @@ before_script:
  - vendor/bin/phpunit --version
 
 script:
- - vendor/bin/phpunit --filter amb_p3_parserTest
+ - vendor/bin/phpunit
 
 after_script:
  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash <(curl -s https://codecov.io/bash); fi

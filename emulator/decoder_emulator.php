@@ -3,7 +3,12 @@ if(!file_exists($argv[1]))
     die("Data folder does not exist\n");
 echo "Emulator started\n";
 $socket=socket_create(AF_INET,SOCK_STREAM,0);
-socket_bind($socket,'127.0.0.1',5403);
+if(empty($argv[2]))
+    $port = 5403;
+else
+    $port = $argv[2];
+
+socket_bind($socket,'127.0.0.1', $port);
 socket_listen($socket);
 var_dump('check');
 $socket2=socket_accept($socket);
