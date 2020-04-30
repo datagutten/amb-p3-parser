@@ -57,7 +57,13 @@ class amb_p3_parser
 		}
 		return $record;
 	}
-	function get_records($data) //Get all records from a string
+
+    /**
+     * Get all records from a string
+     * @param string $data Data from decoder
+     * @return array
+     */
+	public static function get_records($data)
 	{
 		preg_match_all('/'.chr(0x8E).'.+?'.chr(0x8F).'/',$data,$records_preg);
 		return $records_preg[0];
