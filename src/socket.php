@@ -71,4 +71,9 @@ class socket
         $this->buffer=substr($this->buffer,$data_end+1); //Remove data from buffer
         return $records;
     }
+
+    function __destruct()
+    {
+        socket_close($this->socket);
+    }
 }
