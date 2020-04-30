@@ -10,6 +10,9 @@ php:
 matrix:
  fast_finish: true
  include:
+  - php: '5.6'
+    before_install: rm 'tests/socketTest.php'
+
   - os: windows
     language: sh
     before_install:
