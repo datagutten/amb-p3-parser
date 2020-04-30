@@ -8,6 +8,7 @@
     <filter>
         <whitelist>
             <directory>src</directory>
+            <file>amb-p3-parser.class.php</file>
         </whitelist>
     </filter>
     <logging>
