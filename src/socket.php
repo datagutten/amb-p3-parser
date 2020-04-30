@@ -23,7 +23,7 @@ class socket
         if($result===false)
         {
             $error = error_get_last();
-            throw new RuntimeException('Could not open connection to decoder: '.$error['message']);
+            throw new RuntimeException(sprintf('Could not open connection to decoder %s on port %d: %s',$address, $port, $error['message']));
         }
 
         //$this->buffer=socket_read ($this->socket, 1024);
