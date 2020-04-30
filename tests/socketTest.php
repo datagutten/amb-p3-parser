@@ -44,6 +44,13 @@ class socketTest extends TestCase
         $this->assertEquals(strlen($records[0])-1, amb_p3_parser::find_end($records[0]));
     }
 
+    function testConnectInvalid()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Could not open connection to decoder 127.0.0.1 on port 9999');
+        new socket('127.0.0.1', 9999);
+    }
+
     function testLostConnection()
     {
         if(!$this->emulator->isRunning())
