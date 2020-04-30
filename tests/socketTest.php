@@ -10,11 +10,13 @@ class socketTest extends TestCase
      * @var Process
      */
     public $emulator;
+    public $port;
     function setUp(): void
     {
+        $this->port = rand(5404,6000);
         $data = realpath(__DIR__.'/../emulator/emulator_data');
         $emulator_script = realpath(__DIR__.'/../emulator/decoder_emulator.php');
-        $this->emulator = new Process(['php', $emulator_script, $data]);
+        $this->emulator = new Process(['php', $emulator_script, $data, $this->port]);
         $this->emulator->start();
     }
 
@@ -28,7 +30,7 @@ class socketTest extends TestCase
         if(!$this->emulator->isRunning())
             $this->markTestSkipped('Emulator is not running');
 
-        $socket = new socket('127.0.0.1', '5403');
+        $socket = new socket('127.0.0.1', $this->port);
         $records = $socket->read_records();
 
         $this->assertIsArray($records);
@@ -40,8 +42,10 @@ class socketTest extends TestCase
     {
         if(!$this->emulator->isRunning())
             $this->markTestSkipped('Emulator is not running');
+        if(PHP_OS!=='WINNT')
+            $this->markTestSkipped('This test is currently only working on windows');
 
-        $socket = new socket('127.0.0.1', '5403');
+        $socket = new socket('127.0.0.1', $this->port);
         $socket->read_records();
         $this->emulator->stop();
         $this->expectException(RuntimeException::class);
