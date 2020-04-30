@@ -20,10 +20,6 @@ class socketTest extends TestCase
         $this->emulator->start();
         sleep(1);
         //printf("Started emulator on port %d\n", $this->port);
-        if(PHP_OS!='WINNT') {
-            file_put_contents('debug_ps.txt', shell_exec('ps aux'));
-            file_put_contents('debug_netstat.txt', shell_exec('netstat -anp|grep 127.0.0.1:'.$this->port));
-        }
     }
 
     function tearDown(): void
