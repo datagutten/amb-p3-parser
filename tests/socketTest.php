@@ -1,5 +1,6 @@
 <?php
 
+use datagutten\amb\parser\exceptions\ConnectionError;
 use datagutten\amb\parser\socket;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
@@ -42,7 +43,7 @@ class socketTest extends TestCase
 
     function testConnectInvalid()
     {
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ConnectionError::class);
         $this->expectExceptionMessage('Could not open connection to decoder 127.0.0.1 on port 9999');
         new socket('127.0.0.1', 9999);
     }
@@ -68,7 +69,7 @@ class socketTest extends TestCase
         $socket = new socket('127.0.0.1', $this->port);
         $socket->read_records();
         $this->emulator->stop();
-        $this->expectException(RuntimeException::class);
+        $this->expectException(ConnectionError::class);
         $this->expectExceptionMessage('unable to read from socket');
         $socket->read_records();
     }
