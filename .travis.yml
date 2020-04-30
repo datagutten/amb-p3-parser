@@ -8,6 +8,7 @@ matrix:
     before_install:
      - choco install php --version 7.3
      - choco install composer
+     - export PATH="/c/tools/php73:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
      - cp tests/php-test.ini /c/tools/php73/php.ini
   - os: linux
     php: '7.4'
