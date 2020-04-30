@@ -18,6 +18,7 @@ class socketTest extends TestCase
         $emulator_script = realpath(__DIR__.'/../emulator/decoder_emulator.php');
         $this->emulator = new Process(['php', $emulator_script, $data, $this->port]);
         $this->emulator->start();
+        sleep(1);
         //printf("Started emulator on port %d\n", $this->port);
         if(PHP_OS!='WINNT') {
             file_put_contents('debug_ps.txt', shell_exec('ps aux'));
