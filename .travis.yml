@@ -1,4 +1,11 @@
 language: php
+php:
+  - '5.6'
+  - '7.0'
+  - '7.1'
+  - '7.2'
+  - '7.3'
+  - '7.4'
 
 matrix:
  fast_finish: true
@@ -11,7 +18,8 @@ matrix:
      - export PATH="/c/tools/php73:/c/ProgramData/ComposerSetup/bin/:/c/ProgramData/chocolatey/lib/ffmpeg/tools:$PATH"
      - cp tests/php-test.ini /c/tools/php73/php.ini
   - os: linux
-    php: '7.4'
+ allow_failures:
+  - php: '5.6'
 
 install:
  - composer install --no-interaction;

@@ -19,7 +19,7 @@
         "ext-sockets": "*"
     },
     "require-dev": {
-        "symfony/process": "^5.0",
-        "phpunit/phpunit": "^8"
+        "symfony/process": "3^|4^|^5.0",
+        "phpunit/phpunit": "^9|^8|^7|^6"
     }
 }
