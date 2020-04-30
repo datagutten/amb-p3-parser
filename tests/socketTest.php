@@ -51,6 +51,17 @@ class socketTest extends TestCase
         new socket('127.0.0.1', 9999);
     }
 
+    function testIncompleteData()
+    {
+        $socket = new socket('127.0.0.1', $this->port);
+        $socket->buffer = ''; //Empty buffer
+        $records = $socket->read_records();
+
+        $this->assertIsArray($records);
+        $this->assertEquals(0, amb_p3_parser::find_start($records[0]));
+        $this->assertEquals(strlen($records[0])-1, amb_p3_parser::find_end($records[0]));
+    }
+
     function testLostConnection()
     {
         if(!$this->emulator->isRunning())
