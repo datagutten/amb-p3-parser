@@ -14,9 +14,19 @@ foreach(scandir($dir=$argv[1]) as $file)
 {
 	if(!is_file($dir.'/'.$file))
 		continue;
-	$status = socket_write($socket2,file_get_contents($dir.'/'.$file));
-	if($status===false)
-	    die();
+	$status = @socket_write($socket2,file_get_contents($dir.'/'.$file));
+	if($status===false) {
+	    $code = socket_last_error($socket2);
+        $error = error_get_last();
+
+        if($code===32) {
+            echo "Error, reopen socket\n";
+            $socket2 = socket_accept($socket);
+            continue;
+        }
+        else
+            die($error['message']);
+    }
 	echo "Send $file\n";
 	sleep(1);
 }
