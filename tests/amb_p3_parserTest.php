@@ -58,6 +58,9 @@ class amb_p3_parserTest extends TestCase
         $this->assertEquals($passing_ref, $passing);
     }
 
+    /**
+     * @requires PHPUnit 8.0
+     */
     public function testInvalidRecord()
     {
         $this->expectError();
