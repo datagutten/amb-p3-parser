@@ -18,11 +18,9 @@ install:
 
 before_script:
  - vendor/bin/phpunit --version
- - php emulator/decoder_emulator.php emulator/emulator_data >/dev/null &
 
 script:
  - vendor/bin/phpunit
 
 after_script:
- - cat debug_netstat.txt
  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash <(curl -s https://codecov.io/bash); fi
