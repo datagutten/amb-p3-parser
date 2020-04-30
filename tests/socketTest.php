@@ -18,6 +18,11 @@ class socketTest extends TestCase
         $emulator_script = realpath(__DIR__.'/../emulator/decoder_emulator.php');
         $this->emulator = new Process(['php', $emulator_script, $data, $this->port]);
         $this->emulator->start();
+        //printf("Started emulator on port %d\n", $this->port);
+        if(PHP_OS!='WINNT') {
+            file_put_contents('debug_ps.txt', shell_exec('ps aux'));
+            file_put_contents('debug_netstat.txt', shell_exec('netstat -anp|grep 127.0.0.1:'.$this->port));
+        }
     }
 
     function tearDown(): void
