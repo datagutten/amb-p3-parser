@@ -153,5 +153,19 @@ class amb_p3_parser
 		return $record_parsed;
 	}
 
+	public static function find_start($record)
+    {
+        return strpos($record,chr(0x8E));
+    }
+
+    public static function find_end($record)
+    {
+        return strpos($record,chr(0x8F));
+    }
+
+    public static function find_last_end($record)
+    {
+        return strrpos($record,chr(0x8F));
+    }
 
 }
