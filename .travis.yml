@@ -35,7 +35,12 @@ before_script:
  - vendor/bin/phpunit --version
 
 script:
- - vendor/bin/phpunit
+ - |
+   if [ ${TRAVIS_PHP_VERSION:0:3} == "7.4" ]; then
+      vendor/bin/phpunit
+   else
+      vendor/bin/phpunit --no-coverage;
+   fi
 
 after_script:
  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then bash <(curl -s https://codecov.io/bash); fi
