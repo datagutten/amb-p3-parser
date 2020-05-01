@@ -36,6 +36,17 @@ class amb_p3_parserTest extends TestCase
         $this->assertEquals($fields_ref, $record);
     }
 
+    public function testUnknownField()
+    {
+        $data = file_get_contents(__DIR__.'/test_data/good_passing');
+        $data[0xA] = chr(0x9);
+
+        $this->expectException(AmbParseError::class);
+        $this->expectExceptionMessage('Unknown field ID at position a: 9');
+        $fields = parser::$messages[1] + parser::$messages['general'];
+        parser::read_fields($data, $fields);
+    }
+
     public function testParse()
     {
         $data = file_get_contents(__DIR__.'/test_data/good_passing');
