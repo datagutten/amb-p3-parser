@@ -9,10 +9,13 @@ matrix:
  fast_finish: true
  include:
   - php: '5.6'
-    before_install: rm 'tests/socketTest.php'
+    before_script:
+       - sed "s/. void//" --in-place tests/socketTest.php
+       - sed "s/assertIsArray(\$records)/assertTrue(is_array(\$records))/" --in-place tests/socketTest.php
   - php: '7.0'
     before_script:
      - sed "s/. void//" --in-place tests/socketTest.php
+     - sed "s/assertIsArray(\$records)/assertTrue(is_array(\$records))/" --in-place tests/socketTest.php
 
   - os: windows
     language: sh
