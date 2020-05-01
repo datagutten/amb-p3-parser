@@ -2,6 +2,7 @@
 
 
 use amb_p3_parser as parser;
+use datagutten\amb\parser\exceptions\AmbParseError;
 use PHPUnit\Framework\TestCase;
 
 
@@ -74,8 +75,8 @@ class amb_p3_parserTest extends TestCase
      */
     public function testInvalidRecord()
     {
-        $this->expectError();
-        $this->expectErrorMessage('Invalid record');
+        $this->expectException(AmbParseError::class);
+        $this->expectExceptionMessage('Invalid record');
         parser::parse('asdf');
     }
 
