@@ -80,6 +80,43 @@ class amb_p3_parserTest extends TestCase
         parser::parse('asdf');
     }
 
+
+    public function testUnknownType()
+    {
+        $data = file_get_contents(__DIR__.'/test_data/bad_passing');
+        $data[0x8] = chr(0x99);
+        $data[0x9] = chr(0x99);
+        $this->expectException(AmbParseError::class);
+        $this->expectExceptionMessage('Unkown record type');
+        parser::parse($data);
+    }
+
+    public function testTypeNotParsable()
+    {
+        $data = file_get_contents(__DIR__.'/test_data/good_passing');
+        $data[0x8] = chr(0x45);
+        $data[0x9] = chr(0x00);
+        $record = parser::parse($data);
+        $this->assertFalse(isset($record['DECODER_ID']));
+    }
+
+    public function testInvalidLength()
+    {
+        $data = file_get_contents(__DIR__.'/test_data/good_passing');
+        $data[0x2] = chr(0x9);
+        $data[0x3] = chr(0x9);
+        $this->expectException(AmbParseError::class);
+        $this->expectExceptionMessage('Length is not matching. Strlen=51, length=2313');
+        parser::parse($data);
+    }
+
+    public function testFilteredType()
+    {
+        $data = file_get_contents(__DIR__.'/test_data/status');
+        $record = parser::parse($data, 0x01);
+        $this->assertTrue($record);
+    }
+
     public function testParse_header()
     {
         $data = file_get_contents(__DIR__.'/test_data/good_passing');
