@@ -41,6 +41,9 @@ class socketTest extends TestCase
         $this->assertEquals(strlen($records[0])-1, amb_p3_parser::find_end($records[0]));
     }
 
+    /**
+     * @requires PHPUnit 8.0
+     */
     function testConnectInvalid()
     {
         $this->expectException(ConnectionError::class);
