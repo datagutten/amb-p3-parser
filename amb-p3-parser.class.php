@@ -1,4 +1,7 @@
 <?Php
+
+use datagutten\amb\parser\exceptions\AmbParseError;
+
 class amb_p3_parser
 {
     /**
@@ -130,6 +133,7 @@ class amb_p3_parser
      * @param $record
      * @param $fields
      * @return mixed
+     * @throws AmbParseError Unknown field ID
      */
     public static function read_fields($record,$fields)
 	{
@@ -140,8 +144,8 @@ class amb_p3_parser
 			if(!isset($fields[$field_id]))
 			{
 				//$info['error']="Unknown message id: $field";
-				trigger_error("Unknown field ID at position ".dechex($pos).": ".dechex($field_id));
-				$fields[$field_id]='unkown_'.dechex($pos);
+                throw new AmbParseError("Unknown field ID at position ".dechex($pos).": ".dechex($field_id));
+				//$fields[$field_id]='unkown_'.dechex($pos);
 			}
 			$field_name=$fields[$field_id]; //Get the field name
 			$length=ord(substr($record,$pos+1,1)); //After the field ID we find the message length
@@ -157,22 +161,21 @@ class amb_p3_parser
      * Parse a record
      * @param string $record
      * @param bool $typefilter
-     * @return array|bool Returns an array for a valid record, returns bool false for errors, returns bool true for records skipped by type filter
+     * @return array|bool Returns array for a valid record, returns bool true for records skipped by type filter
+     * @throws AmbParseError
      */
 	public static function parse($record,$typefilter=false) //Parse a record
 	{
 		$record=self::unescape($record);
 		if(ord(substr($record,0,1))!=0x8E || ord(substr($record,-1,1))!=0x8F) //Verify that the provided string is a complete record
 		{
-			trigger_error("Invalid record");
-			return false;
+			throw new AmbParseError("Invalid record");
 		}
 		$header=self::parse_header($record);
 		
 		if(!isset(self::$record_types[$header['type']]))
 		{
-			trigger_error("Unkown record type: ".dechex($header['type']));
-			return false;
+			throw new AmbParseError("Unkown record type: ".dechex($header['type']));
 		}
 		//echo "Type is {$this->record_types[$header['type']]}\n";
 
@@ -188,8 +191,8 @@ class amb_p3_parser
 		else
 			$record_parsed=$header;
 		
-		if($record_parsed['length']!=$strlen=strlen($record))
-			$record_parsed['error']="Length is not matching. Strlen=$strlen, length={$info['length']}";
+		if($record_parsed['length']!=strlen($record))
+			throw new AmbParseError(sprintf('Length is not matching. Strlen=%d, length=%d',strlen($record), $record_parsed['length']));
 
 		return $record_parsed;
 	}
