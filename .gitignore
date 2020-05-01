@@ -1,4 +1,12 @@
 config*.php
 bad_records
+trimmed_files
+unknown_records
 
 /vendor/
+
+.idea
+coverage_html
+clover.xml
+.phpunit.result.cache
+composer.lock
