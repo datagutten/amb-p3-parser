@@ -9,8 +9,14 @@ use datagutten\amb\parser\exceptions\ConnectionError;
 
 class socket
 {
+    /**
+     * @var string Read buffer
+     */
     public $buffer = '';
-    public $socket;
+    /**
+     * @var resource Socket resource
+     */
+    protected $socket;
 
     /**
      * socket constructor.
@@ -75,6 +81,9 @@ class socket
         return $records;
     }
 
+    /**
+     * Close the socket
+     */
     function __destruct()
     {
         socket_close($this->socket);
