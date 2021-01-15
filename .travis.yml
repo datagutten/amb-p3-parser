@@ -9,15 +9,6 @@ php:
 matrix:
  fast_finish: true
  include:
-  - php: '5.6'
-    before_script:
-       - sed "s/. void//" --in-place tests/socketTest.php
-       - sed "s/assertIsArray(\$records)/assertTrue(is_array(\$records))/" --in-place tests/socketTest.php
-  - php: '7.0'
-    before_script:
-     - sed "s/. void//" --in-place tests/socketTest.php
-     - sed "s/assertIsArray(\$records)/assertTrue(is_array(\$records))/" --in-place tests/socketTest.php
-
   - os: windows
     language: sh
     before_install:
@@ -30,9 +21,6 @@ matrix:
     name: 'Prefer lowest'
     install:
       - composer update --no-interaction --prefer-lowest
- allow_failures:
-  - php: '5.6'
-
 env:
   global:
     - XDEBUG_MODE=coverage
