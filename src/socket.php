@@ -23,7 +23,7 @@ class socket
      * @param int $port Decoder port (Usually 5403)
      * @throws ConnectionError
      */
-    function __construct($address, $port = 5403)
+    function __construct(string $address, $port = 5403)
     {
         $this->socket=socket_create(AF_INET,SOCK_STREAM,0);
         $result=@socket_connect($this->socket,$address,$port);
@@ -45,7 +45,7 @@ class socket
      * @return string Data from socket
      * @throws ConnectionError
      */
-    function read()
+    function read(): string
     {
         $data = @socket_read($this->socket, 1024);
         if($data===false)
@@ -60,9 +60,10 @@ class socket
 
     /**
      * Read from socket and parse records
+     * @return array Array with records
      * @throws ConnectionError
      */
-    function read_records()
+    function read_records(): array
     {
         //No complete data in buffer, read more
         /*if(($endpos=strpos($this->buffer,chr(0x8F)))===false)

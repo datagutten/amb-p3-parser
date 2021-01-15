@@ -53,10 +53,10 @@ class parser
 
     /**
      * Trim data to only contain complete records
-     * @param $data
-     * @return bool|string
+     * @param string $data Data to be trimmed
+     * @return string Trimmed data
      */
-	public static function trim_data($data)
+	public static function trim_data(string $data): string
 	{
 		$start=self::find_start($data);
 		$end=self::find_last_end($data);
@@ -68,7 +68,7 @@ class parser
      * @param string $record
      * @return string Record with unescaped bytes
      */
-	public static function unescape($record)
+	public static function unescape(string $record): string
 	{
 		$pos=-2;
 		while($pos=strpos($record,chr(0x8D),$pos+2)) //Search from previous position +2 in case the unescaped byte is 0x8D
@@ -82,9 +82,9 @@ class parser
     /**
      * Get all records from a string
      * @param string $data Data from decoder
-     * @return array
+     * @return array Array with records
      */
-	public static function get_records($data)
+	public static function get_records(string $data): array
 	{
 		preg_match_all('/'.chr(0x8E).'.+?'.chr(0x8F).'/',$data,$records_preg);
 		return $records_preg[0];
@@ -92,12 +92,12 @@ class parser
 
     /**
      * Convert a string to character codes
-     * @param $string String to be converted
+     * @param string $string String to be converted
      * @param bool $return_as_hex Return as string with hex values or a decimal integer
      * @param bool $reverse Reverse the byte order
-     * @return int|string
+     * @return int|string Character code as integer or hex string
      */
-	public static function format_value($string,$return_as_hex=false,$reverse=true)
+	public static function format_value(string $string, $return_as_hex=false, $reverse=true)
 	{
 		if($reverse)
 			$string=strrev($string); //The values need to be reversed
@@ -118,9 +118,9 @@ class parser
     /**
      * Parse the record header
      * @param string $record Trimmed record
-     * @return array
+     * @return array Array with header information
      */
-	public static function parse_header($record)
+	public static function parse_header(string $record): array
 	{
 		//Header
 		$info['version']=ord(substr($record,0x1,1));
@@ -134,12 +134,12 @@ class parser
 
     /**
      * Read the fields of a record according to an array with field definitions
-     * @param $record
-     * @param $fields
-     * @return mixed
+     * @param string $record Record to be parsed
+     * @param array $fields Field definition
+     * @return array Array with field names and values
      * @throws AmbParseError Unknown field ID
      */
-    public static function read_fields($record,$fields)
+    public static function read_fields(string $record, array $fields): array
 	{
 		$messages = [];
 		for($pos=0xA; $pos<strlen($record)-1; $pos++) //Parse body
@@ -164,11 +164,11 @@ class parser
     /**
      * Parse a record
      * @param string $record
-     * @param bool $typefilter
+     * @param bool $type_filter
      * @return array|bool Returns array for a valid record, returns bool true for records skipped by type filter
      * @throws AmbParseError
      */
-	public static function parse($record,$typefilter=false) //Parse a record
+	public static function parse(string $record, $type_filter=false) //Parse a record
 	{
 		$record=self::unescape($record);
 		if(ord(substr($record,0,1))!=0x8E || ord(substr($record,-1,1))!=0x8F) //Verify that the provided string is a complete record
@@ -183,7 +183,7 @@ class parser
 		}
 		//echo "Type is {$this->record_types[$header['type']]}\n";
 
-		if($typefilter!==false && $header['type']!=$typefilter) //Type is not wanted
+		if($type_filter!==false && $header['type']!=$type_filter) //Type is not wanted
 			return true;
 
 		if(isset(self::$messages[$header['type']])) //Check if the message can be parsed
@@ -202,33 +202,32 @@ class parser
 	}
 
     /**
-     * Find the first start byte
-     * @param string $record
-     * @return bool|int
+     * Find the position of the first start byte
+     * @param string $record Record
+     * @return bool|int Start byte offset or false if it is not found
      */
-	public static function find_start($record)
+	public static function find_start(string $record)
     {
         return strpos($record,chr(0x8E));
     }
 
     /**
-     * Find the first end byte
-     * @param string $record
-     * @return bool|int
+     * Find the position of the first end byte
+     * @param string $record Record
+     * @return bool|int End byte offset or false if it is not found
      */
-    public static function find_end($record)
+    public static function find_end(string $record)
     {
         return strpos($record,chr(0x8F));
     }
 
     /**
-     * Find the last end byte
-     * @param string $record
-     * @return bool|int
+     * Find the position of the last end byte
+     * @param string $record Record
+     * @return bool|int End byte offset or false if it is not found
      */
-    public static function find_last_end($record)
+    public static function find_last_end(string $record)
     {
         return strrpos($record,chr(0x8F));
     }
-
 }
