@@ -2,6 +2,7 @@
 
 use datagutten\amb\parser\exceptions\ConnectionError;
 use datagutten\amb\parser\socket;
+use datagutten\amb\parser\parser;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Process\Process;
 
@@ -37,8 +38,8 @@ class socketTest extends TestCase
         $records = $socket->read_records();
 
         $this->assertIsArray($records);
-        $this->assertEquals(0, amb_p3_parser::find_start($records[0]));
-        $this->assertEquals(strlen($records[0])-1, amb_p3_parser::find_end($records[0]));
+        $this->assertEquals(0, parser::find_start($records[0]));
+        $this->assertEquals(strlen($records[0])-1, parser::find_end($records[0]));
     }
 
     /**
@@ -58,8 +59,8 @@ class socketTest extends TestCase
         $records = $socket->read_records();
 
         $this->assertIsArray($records);
-        $this->assertEquals(0, amb_p3_parser::find_start($records[0]));
-        $this->assertEquals(strlen($records[0])-1, amb_p3_parser::find_end($records[0]));
+        $this->assertEquals(0, parser::find_start($records[0]));
+        $this->assertEquals(strlen($records[0])-1, parser::find_end($records[0]));
     }
 
     function testLostConnection()

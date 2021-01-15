@@ -1,8 +1,8 @@
 <?php
 
 
-use amb_p3_parser as parser;
 use datagutten\amb\parser\exceptions\AmbParseError;
+use datagutten\amb\parser\parser;
 use PHPUnit\Framework\TestCase;
 
 
@@ -147,7 +147,7 @@ class amb_p3_parserTest extends TestCase
         $string = parser::format_value(chr(0x0F).chr(0xFF));
         $this->assertEquals(0xFF0F, $string);
 
-        $string = amb_p3_parser::format_value(chr(0x0F).chr(0xFF), false, false);
+        $string = parser::format_value(chr(0x0F).chr(0xFF), false, false);
         $this->assertEquals(0x0FFF, $string);
 
         $string = parser::format_value(chr(0x0F).chr(0xFF), true);
