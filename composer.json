@@ -12,8 +12,7 @@
     "autoload": {
         "psr-4": {
             "datagutten\\amb\\parser\\": "src"
-        },
-        "classmap": ["amb-p3-parser.class.php"]
+        }
     },
     "require": {
         "ext-sockets": "*",
