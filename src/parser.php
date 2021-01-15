@@ -1,8 +1,12 @@
 <?Php
 
+
+namespace datagutten\amb\parser;
+
+
 use datagutten\amb\parser\exceptions\AmbParseError;
 
-class amb_p3_parser
+class parser
 {
     /**
      * @var array Record types

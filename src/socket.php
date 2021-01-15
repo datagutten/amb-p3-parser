@@ -4,7 +4,6 @@
 namespace datagutten\amb\parser;
 
 
-use amb_p3_parser as parser;
 use datagutten\amb\parser\exceptions\ConnectionError;
 
 class socket
