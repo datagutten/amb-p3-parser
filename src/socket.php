@@ -4,7 +4,6 @@
 namespace datagutten\amb\parser;
 
 
-use amb_p3_parser;
 use amb_p3_parser as parser;
 use datagutten\amb\parser\exceptions\ConnectionError;
 
@@ -12,10 +11,6 @@ class socket
 {
     public $buffer = '';
     public $socket;
-    /**
-     * @var amb_p3_parser
-     */
-    public $parser;
 
     /**
      * socket constructor.
@@ -38,7 +33,6 @@ class socket
         //Remove incomplete data at the beginning
         if(substr($this->buffer,0,1)!=chr(0x8E))
             $this->buffer=substr($this->buffer,strpos($this->buffer,chr(0x8E)));
-        $this->parser = new amb_p3_parser();
     }
 
     /**
@@ -76,7 +70,7 @@ class socket
 
         //$data_end=strrpos($this->buffer,chr(0x8F)); //Get position of last end byte
         $data_end = parser::find_last_end($this->buffer); //Get position of last end byte
-        $records = $this->parser->get_records($this->buffer);
+        $records = parser::get_records($this->buffer);
         $this->buffer=substr($this->buffer,$data_end+1); //Remove data from buffer
         return $records;
     }
