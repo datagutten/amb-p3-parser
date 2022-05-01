@@ -84,11 +84,26 @@ class parser
      * @param string $data Data from decoder
      * @return array Array with records
      */
-	public static function get_records(string $data): array
-	{
-		preg_match_all('/'.chr(0x8E).'.+?'.chr(0x8F).'/',$data,$records_preg);
-		return $records_preg[0];
-	}
+    public static function get_records(string $data): array
+    {
+        $records = [];
+        $found = false;
+        $record = '';
+        foreach (str_split($data) as $char)
+        {
+            if ($char == chr(0x8e))
+                $found = true;
+            if ($found)
+                $record .= $char;
+            if ($char == chr(0x8f))
+            {
+                $found = false;
+                $records[] = $record;
+                $record = '';
+            }
+        }
+        return $records;
+    }
 
     /**
      * Convert a string to character codes

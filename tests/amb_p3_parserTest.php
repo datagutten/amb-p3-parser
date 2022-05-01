@@ -161,6 +161,21 @@ class amb_p3_parserTest extends TestCase
         $this->assertCount(10, $records);
     }
 
+    public function testGet_records2()
+    {
+        $data = file_get_contents(__DIR__ . '/test_data/amb-2022-05-01 145557-10.33.11.50.log');
+        preg_match_all('#\\x8e.+?\\x8f#', $data, $matches);
+        $data_length = strlen($data);
+        $records = parser::get_records($data);
+        $records_length = 0;
+        foreach ($records as $record)
+        {
+            $records_length += strlen($record);
+        }
+        $this->assertLessThan($data_length / 10, $data_length - $records_length);
+        $this->assertCount(67, $records);
+    }
+
     public function testFind_start()
     {
         $data = file_get_contents(__DIR__.'/test_data/need_trimming');
