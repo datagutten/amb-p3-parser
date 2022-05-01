@@ -21,5 +21,8 @@
     "require-dev": {
         "symfony/process": "^3|^4|^5.0",
         "phpunit/phpunit": "^9|^8|^7.5"
-    }
+    },
+    "bin": [
+        "scripts/parse_file.php"
+    ]
 }
