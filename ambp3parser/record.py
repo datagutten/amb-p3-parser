@@ -137,6 +137,10 @@ class Passing(AMBRecord):
         return Decimal(self.RTC_TIME) / 1000000
 
     @property
+    def timestamp_ms(self):
+        return Decimal(self.RTC_TIME) / 1000
+
+    @property
     def datetime(self):
         return datetime.datetime.fromtimestamp(int(self.timestamp))
 

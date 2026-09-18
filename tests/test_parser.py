@@ -19,6 +19,7 @@ class TestParser(unittest.TestCase):
         self.assertEqual(113736, passing.PASSING_NUMBER)
         self.assertEqual(2906141, passing.TRANSPONDER)
         self.assertEqual(passing.RTC_TIME, 1437769372993000)
+        self.assertEqual(passing.timestamp_ms, 1437769372993)
         self.assertEqual(106, passing.STRENGTH)
         self.assertEqual(50, passing.HITS)
         self.assertEqual(135059, passing.DECODER_ID)
