@@ -8,7 +8,7 @@ if(empty($argv[2]))
 else
     $port = $argv[2];
 
-socket_bind($socket,'127.0.0.1', $port);
+socket_bind($socket,'0.0.0.0', $port);
 socket_listen($socket);
 var_dump('check');
 $socket2=socket_accept($socket);
