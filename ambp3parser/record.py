@@ -145,7 +145,7 @@ class Passing(AMBRecord):
 
     @property
     def datetime(self):
-        return datetime.datetime.fromtimestamp(int(self.timestamp))
+        return datetime.datetime.fromtimestamp(self.RTC_TIME / 1000000)
 
 
 class Status(AMBRecord):
