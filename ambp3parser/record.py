@@ -115,6 +115,9 @@ class Passing(AMBRecord):
     HITS: int
     PASSING_NUMBER: int
     RTC_TIME: int
+    DRIVER_ID: int
+    VOLTAGE: int
+    TEMPERATURE: int
 
     fields = {
         0x01: 'PASSING_NUMBER',
